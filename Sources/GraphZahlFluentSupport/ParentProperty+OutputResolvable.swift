@@ -1,7 +1,7 @@
 
 import Foundation
 import Fluent
-import LeoQL
+import GraphZahl
 import GraphQL
 
 extension ParentProperty: Resolvable where To: Resolvable { }

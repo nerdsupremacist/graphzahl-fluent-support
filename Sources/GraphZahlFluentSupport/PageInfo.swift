@@ -1,6 +1,6 @@
 
 import Foundation
-import LeoQL
+import GraphZahl
 
 class PageInfo: GraphQLObject {
     let hasNextPage: Bool

@@ -74,6 +74,15 @@
         }
       },
       {
+        "package": "GraphZahl",
+        "repositoryURL": "https://github.com/nerdsupremacist/GraphZahl.git",
+        "state": {
+          "branch": "master",
+          "revision": "86268faf216e5ced0e27e977e51d49021cd7570e",
+          "version": null
+        }
+      },
+      {
         "package": "routing-kit",
         "repositoryURL": "https://github.com/vapor/routing-kit.git",
         "state": {

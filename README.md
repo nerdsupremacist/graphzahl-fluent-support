@@ -1,2 +1,2 @@
-# GraphZahl
-A Framework to implement Declarative GraphQL Server APIs
+# GraphZahl Fluent Support
+A set of extensions that allow to use Fluent APIs with GraphZahl

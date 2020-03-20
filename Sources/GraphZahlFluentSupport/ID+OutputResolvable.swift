@@ -1,9 +1,12 @@
 
 import Foundation
+import Fluent
+import GraphZahl
 import GraphQL
-import NIO
 
-extension EventLoopFuture: OutputResolvable where Value: OutputResolvable {
+extension IDProperty: Resolvable where Value: Resolvable { }
+
+extension IDProperty: OutputResolvable where Value: OutputResolvable {
 
     public static var additionalArguments: [String : InputResolvable.Type] {
         return Value.additionalArguments
@@ -15,9 +18,9 @@ extension EventLoopFuture: OutputResolvable where Value: OutputResolvable {
 
     public func resolve(source: Any,
                         arguments: [String : Map],
-                        eventLoop: EventLoopGroup) -> EventLoopFuture<Any?> {
+                        eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
 
-        return flatMapThrowing { try $0.resolve(source: source, arguments: arguments, eventLoop: eventLoop) }.flatMap { $0 }
+        return try wrappedValue.resolve(source: source, arguments: arguments, eventLoop: eventLoop)
     }
 
 }

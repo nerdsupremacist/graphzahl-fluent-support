@@ -1,7 +1,7 @@
 
 import Foundation
 import NIO
-import LeoQL
+import GraphZahl
 import Fluent
 import Runtime
 import GraphQL

@@ -1,26 +1,28 @@
 
 import Foundation
 import Fluent
-import LeoQL
+import GraphZahl
 import GraphQL
 
-extension ChildrenProperty: Resolvable where To: Resolvable { }
+extension SiblingsProperty: Resolvable where To: Resolvable { }
 
-extension ChildrenProperty: OutputResolvable where To: OutputResolvable & ConcreteResolvable {
+extension SiblingsProperty: OutputResolvable where To: OutputResolvable {
 
     public static var additionalArguments: [String : InputResolvable.Type] {
-        return QueryBuilder<To>.additionalArguments
+        return To.additionalArguments
     }
 
     public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.resolve(type: QueryBuilder<To>.self)
+        return try context.resolve(type: To.self)
     }
 
     public func resolve(source: Any,
                         arguments: [String : Map],
                         eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
 
-        return try query(on: source as! Database).resolve(source: source, arguments: arguments, eventLoop: eventLoop)
+        return get(on: source as! Database)
+            .flatMapThrowing { try $0.resolve(source: source, arguments: arguments, eventLoop: eventLoop) }
+            .flatMap { $0 }
     }
 
 }
