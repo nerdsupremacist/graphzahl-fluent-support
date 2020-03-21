@@ -4,6 +4,8 @@
 # GraphZahl Fluent Support
 A set of extensions that allow to use [Fluent](https://github.com/vapor/fluent) APIs and Types with [GraphZahl](https://github.com/nerdsupremacist/GraphZahl)
 
+**Warning:** For the best results please use. graphzahl-fluent-support with Xcode 11.4 Beta
+
 ## About GraphZahl
 
 GraphZahl is a Framework to implement Declarative, Type-Safe GraphQL Server APIs with Magic 🎩.
