@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "ContextKit",
+        "repositoryURL": "https://github.com/nerdsupremacist/ContextKit.git",
+        "state": {
+          "branch": "master",
+          "revision": "fe6a135c1f58b7115d4f524f1224036a3de0a852",
+          "version": null
+        }
+      },
+      {
         "package": "CRuntime",
         "repositoryURL": "https://github.com/nerdsupremacist/CRuntime.git",
         "state": {
@@ -78,7 +87,7 @@
         "repositoryURL": "https://github.com/nerdsupremacist/GraphZahl.git",
         "state": {
           "branch": "master",
-          "revision": "86268faf216e5ced0e27e977e51d49021cd7570e",
+          "revision": "c0ef1845190276446b6e223b73c251b5a4b97ca0",
           "version": null
         }
       },
@@ -186,8 +195,8 @@
         "repositoryURL": "https://github.com/vapor/vapor.git",
         "state": {
           "branch": null,
-          "revision": "57398ebf41376c0e4953e661e03b3c01224bea21",
-          "version": "4.0.0-rc.3.5"
+          "revision": "c113c4b4e9a1dae3878e38af39c9d45ea88dec73",
+          "version": "4.0.0-rc.3.7"
         }
       },
       {

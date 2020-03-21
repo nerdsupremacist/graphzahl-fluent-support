@@ -4,6 +4,7 @@ import GraphQL
 import GraphZahl
 import Fluent
 import Runtime
+import ContextKit
 
 extension QueryBuilder: Resolvable where Model: Resolvable { }
 
@@ -19,7 +20,12 @@ extension QueryBuilder: OutputResolvable where Model: OutputResolvable & Concret
 
     public func resolve(source: Any,
                         arguments: [String : Map],
+                        context: MutableContext,
                         eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
+
+        context.push {
+            .database ~> database
+        }
 
         let first = try arguments["first"]?.intValue(converting: true)
         let after = try arguments["after"]?.stringValue(converting: true)

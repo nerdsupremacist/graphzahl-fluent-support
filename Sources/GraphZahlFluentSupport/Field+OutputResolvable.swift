@@ -3,6 +3,7 @@ import Foundation
 import Fluent
 import GraphZahl
 import GraphQL
+import ContextKit
 
 extension FieldProperty: Resolvable where Value: Resolvable { }
 
@@ -18,9 +19,10 @@ extension FieldProperty: OutputResolvable where Value: OutputResolvable {
 
     public func resolve(source: Any,
                         arguments: [String : Map],
+                        context: MutableContext,
                         eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
 
-        return try wrappedValue.resolve(source: source, arguments: arguments, eventLoop: eventLoop)
+        return try wrappedValue.resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
     }
 
 }

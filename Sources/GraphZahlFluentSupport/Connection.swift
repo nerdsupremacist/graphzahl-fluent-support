@@ -5,6 +5,7 @@ import GraphZahl
 import Fluent
 import Runtime
 import GraphQL
+import ContextKit
 
 class Connection<Node: Model & OutputResolvable & ConcreteResolvable> {
     struct Edge {
@@ -126,20 +127,20 @@ extension Connection: OutputResolvable {
         context.append(type: GraphQLNonNull(GraphQLTypeReference(concreteTypeName)), as: concreteTypeName)
 
         let fields = [
-            "pageInfo" : GraphQLField(type: try context.resolve(type: PageInfo.self)) { (receiver, args, _, eventLoop, _) -> Future<Any?> in
+            "pageInfo" : GraphQLField(type: try context.resolve(type: PageInfo.self)) { (receiver, args, context, eventLoop, _) -> Future<Any?> in
                 return (receiver as! Connection<Node>)
                     .pageInfo()
-                    .resolve(source: receiver, arguments: try args.dictionaryValue(), eventLoop: eventLoop)
+                    .resolve(source: receiver, arguments: try args.dictionaryValue(), context: context as! MutableContext, eventLoop: eventLoop)
             },
-            "edges" : GraphQLField(type: try context.resolve(type: [Edge?]?.self)) { (receiver, args, _, eventLoop, _) -> Future<Any?> in
+            "edges" : GraphQLField(type: try context.resolve(type: [Edge?]?.self)) { (receiver, args, context, eventLoop, _) -> Future<Any?> in
                 return (receiver as! Connection<Node>)
                     .edges()
-                    .resolve(source: receiver, arguments: try args.dictionaryValue(), eventLoop: eventLoop)
+                    .resolve(source: receiver, arguments: try args.dictionaryValue(), context: context as! MutableContext, eventLoop: eventLoop)
             },
-            "totalCount" : GraphQLField(type: try context.resolve(type: Int.self)) { (receiver, args, _, eventLoop, _) -> Future<Any?> in
+            "totalCount" : GraphQLField(type: try context.resolve(type: Int.self)) { (receiver, args, context, eventLoop, _) -> Future<Any?> in
                 return (receiver as! Connection<Node>)
                     .totalCount()
-                    .resolve(source: receiver, arguments: try args.dictionaryValue(), eventLoop: eventLoop)
+                    .resolve(source: receiver, arguments: try args.dictionaryValue(), context: context as! MutableContext, eventLoop: eventLoop)
             },
         ]
 
@@ -148,7 +149,7 @@ extension Connection: OutputResolvable {
         )
     }
 
-    func resolve(source: Any, arguments: [String : Map], eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
+    func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
         return eventLoop.future(self)
     }
 
@@ -172,15 +173,15 @@ extension Connection.Edge: OutputResolvable {
         context.append(type: GraphQLNonNull(GraphQLTypeReference(concreteTypeName)), as: concreteTypeName)
 
         let fields = [
-            "node" : GraphQLField(type: try context.resolve(type: Optional<Node>.self)) { (receiver, args, _, eventLoop, _) -> Future<Any?> in
+            "node" : GraphQLField(type: try context.resolve(type: Optional<Node>.self)) { (receiver, args, context, eventLoop, _) -> Future<Any?> in
                 return try (receiver as! Connection<Node>.Edge)
                     .node
-                    .resolve(source: receiver, arguments: try args.dictionaryValue(), eventLoop: eventLoop)
+                    .resolve(source: receiver, arguments: try args.dictionaryValue(), context: context as! MutableContext, eventLoop: eventLoop)
             },
-            "cursor" : GraphQLField(type: try context.resolve(type: String.self)) { (receiver, args, _, eventLoop, _) -> Future<Any?> in
+            "cursor" : GraphQLField(type: try context.resolve(type: String.self)) { (receiver, args, context, eventLoop, _) -> Future<Any?> in
                 return (receiver as! Connection<Node>.Edge)
                     .cursor
-                    .resolve(source: receiver, arguments: try args.dictionaryValue(), eventLoop: eventLoop)
+                    .resolve(source: receiver, arguments: try args.dictionaryValue(), context: context as! MutableContext,eventLoop: eventLoop)
             },
         ]
 
@@ -189,7 +190,7 @@ extension Connection.Edge: OutputResolvable {
         )
     }
 
-    func resolve(source: Any, arguments: [String : Map], eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
+    func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
         return eventLoop.future(self)
     }
 
