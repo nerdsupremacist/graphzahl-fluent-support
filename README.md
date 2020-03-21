@@ -64,6 +64,7 @@ It adds support for:
   ## Known Issues
 
 - We currently still crash when trying to resolve Relation Fields from the Property Wrappers. But I'm working on it!
+- Paging for queries is not implemented yet
 
 ## Contributions
 Contributions are welcome and encouraged!
