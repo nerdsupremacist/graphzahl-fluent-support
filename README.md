@@ -26,7 +26,7 @@ let package = Package(
 )
 ```
 
-## Usage (Warning: Still very buggy)
+## Usage
 
 
 To use Fluent Types and Models in your API, you can use [graphzahl-fluent-support](https://github.com/nerdsupremacist/graphzahl-fluent-support):
