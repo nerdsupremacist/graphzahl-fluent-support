@@ -1,7 +1,7 @@
 ![](logo.png)
 
 
-# GraphZahl Fluent Support (Warning: Still very buggy)
+# GraphZahl Fluent Support
 A set of extensions that allow to use [Fluent](https://github.com/vapor/fluent) APIs and Types with [GraphZahl](https://github.com/nerdsupremacist/GraphZahl)
 
 ## About GraphZahl
@@ -63,7 +63,7 @@ It adds support for:
   
   ## Known Issues
 
-- We currently still crash when trying to resolve Relation Fields from the Property Wrappers. But I'm working on it!
+- Relation Fields depend on some query builder having run before, or they will crash otherwise. This is not ideal and should be solved
 - Paging for queries is not implemented yet
 
 ## Contributions
