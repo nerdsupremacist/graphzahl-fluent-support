@@ -13,7 +13,7 @@ let package = Package(
                  targets: ["GraphZahlFluentSupport"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/nerdsupremacist/GraphZahl.git", from: "0.1.0-alpha"),
+         .package(url: "https://github.com/nerdsupremacist/GraphZahl.git", from: "0.1.0-alpha.1"),
          .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0-beta.3"),
          .package(url: "https://github.com/vapor/fluent-kit.git", from: "1.0.0-beta.5"),
     ],
