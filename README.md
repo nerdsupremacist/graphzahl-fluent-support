@@ -1,4 +1,4 @@
-![](logo.png)
+![](https://github.com/nerdsupremacist/GraphZahl/raw/master/logo.png)
 
 
 # GraphZahl Fluent Support
