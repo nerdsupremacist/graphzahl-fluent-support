@@ -21,7 +21,7 @@ import PackageDescription
 let package = Package(
     [...]
     dependencies: [
-        .package(url: "https://github.com/nerdsupremacist/graphzahl-fluent-support.git", majorVersion: XYZ)
+        .package(url: "https://github.com/nerdsupremacist/graphzahl-fluent-support.git", from: "0.1.0-alpha.")
     ]
 )
 ```
