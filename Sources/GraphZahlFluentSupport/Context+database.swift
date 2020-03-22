@@ -2,6 +2,7 @@
 import Foundation
 import GraphZahl
 import Fluent
+import Vapor
 import ContextKit
 
 extension MutableContext {
@@ -26,6 +27,14 @@ extension MutableContext {
 private func findDatabase(in object: Any) -> Database? {
     if let object = object as? Database {
         return object
+    }
+
+    if let object = object as? Application {
+        return object.db
+    }
+
+    if let object = object as? Request {
+        return object.db
     }
 
     let mirror = Mirror(reflecting: object)
