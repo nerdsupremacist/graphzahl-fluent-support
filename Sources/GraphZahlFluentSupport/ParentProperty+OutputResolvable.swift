@@ -22,7 +22,7 @@ extension ParentProperty: OutputResolvable where To: OutputResolvable {
                         context: MutableContext,
                         eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
 
-        return get(on: context[.database])
+        return get(on: try context.database())
             .flatMapThrowing { try $0.resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop) }
             .flatMap { $0 }
     }

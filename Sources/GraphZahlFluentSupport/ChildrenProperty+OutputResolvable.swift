@@ -22,7 +22,7 @@ extension ChildrenProperty: OutputResolvable where To: OutputResolvable & Concre
                         context: MutableContext,
                         eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
 
-        return try query(on: context[.database]).resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
+        return try query(on: context.database()).resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
     }
 
 }
