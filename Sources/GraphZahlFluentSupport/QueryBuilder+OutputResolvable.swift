@@ -11,11 +11,11 @@ extension QueryBuilder: Resolvable where Model: Resolvable { }
 extension QueryBuilder: OutputResolvable where Model: OutputResolvable & ConcreteResolvable {
 
     public static var additionalArguments: [String : InputResolvable.Type] {
-        return Connection<Model>.additionalArguments
+        return QueryConnection<Model>.additionalArguments
     }
 
     public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.resolve(type: Connection<Model>.self)
+        return try context.resolve(type: QueryConnection<Model>.self)
     }
 
     public func resolve(source: Any,
@@ -27,19 +27,7 @@ extension QueryBuilder: OutputResolvable where Model: OutputResolvable & Concret
             .database ~> database
         }
 
-        let first = try arguments["first"]?.intValue(converting: true)
-        let after = try arguments["after"]?.stringValue(converting: true)
-        let last = try arguments["last"]?.intValue(converting: true)
-        let before = try arguments["before"]?.stringValue(converting: true)
-
-        let connection = Connection(eventLoop: eventLoop,
-                                    query: self,
-                                    first: first,
-                                    after: after,
-                                    last: last,
-                                    before: before)
-
-        return eventLoop.future(connection)
+        return try QueryConnection(query: self).resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
     }
     
 }
