@@ -7,26 +7,12 @@ import ContextKit
 
 extension IDProperty: Resolvable where Value: Resolvable { }
 
-extension IDProperty: OutputResolvable where Value: OutputResolvable {
+extension IDProperty: OutputResolvable where Value: OutputResolvable { }
 
-    public static var additionalArguments: [String : InputResolvable.Type] {
-        return Value.additionalArguments
-    }
+extension IDProperty: DelegatedOutputResolvable where Value: OutputResolvable {
 
-    public static func reference(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.reference(for: Value.self)
-    }
-
-    public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.resolve(type: Value.self)
-    }
-
-    public func resolve(source: Any,
-                        arguments: [String : Map],
-                        context: MutableContext,
-                        eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
-
-        return try wrappedValue.resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
+    public func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> some OutputResolvable {
+        return wrappedValue
     }
 
 }

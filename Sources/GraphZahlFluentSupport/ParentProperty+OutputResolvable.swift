@@ -7,28 +7,12 @@ import ContextKit
 
 extension ParentProperty: Resolvable where To: Resolvable { }
 
-extension ParentProperty: OutputResolvable where To: OutputResolvable {
+extension ParentProperty: OutputResolvable where To: OutputResolvable { }
 
-    public static var additionalArguments: [String : InputResolvable.Type] {
-        return To.additionalArguments
-    }
+extension ParentProperty: DelegatedOutputResolvable where To: OutputResolvable {
 
-    public static func reference(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.reference(for: Value.self)
-    }
-
-    public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.resolve(type: To.self)
-    }
-
-    public func resolve(source: Any,
-                        arguments: [String : Map],
-                        context: MutableContext,
-                        eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
-
+    public func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> some OutputResolvable {
         return get(on: try context.database())
-            .flatMapThrowing { try $0.resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop) }
-            .flatMap { $0 }
     }
 
 }

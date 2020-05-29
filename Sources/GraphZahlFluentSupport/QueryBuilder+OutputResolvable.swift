@@ -8,30 +8,17 @@ import ContextKit
 
 extension QueryBuilder: Resolvable where Model: Resolvable { }
 
-extension QueryBuilder: OutputResolvable where Model: OutputResolvable & ConcreteResolvable {
+extension QueryBuilder: OutputResolvable where Model: OutputResolvable & ConcreteResolvable { }
 
-    public static var additionalArguments: [String : InputResolvable.Type] {
-        return QueryConnection<Model>.additionalArguments
-    }
+extension QueryBuilder: DelegatedOutputResolvable where Model: OutputResolvable & ConcreteResolvable {
 
-    public static func reference(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.reference(for: QueryConnection<Model>.self)
-    }
-
-    public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
-        return try context.resolve(type: QueryConnection<Model>.self)
-    }
-
-    public func resolve(source: Any,
-                        arguments: [String : Map],
-                        context: MutableContext,
-                        eventLoop: EventLoopGroup) throws -> EventLoopFuture<Any?> {
-
+    // Indirection added to include the database in the context, just in case it's not part of the viewer context
+    public func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> some OutputResolvable {
         context.push {
             .database ~> database
         }
 
-        return try QueryConnection(query: self).resolve(source: source, arguments: arguments, context: context, eventLoop: eventLoop)
+        return QueryConnection(query: self)
     }
-    
+
 }
