@@ -14,6 +14,10 @@ extension QueryBuilder: OutputResolvable where Model: OutputResolvable & Concret
         return QueryConnection<Model>.additionalArguments
     }
 
+    public static func reference(using context: inout Resolution.Context) throws -> GraphQLOutputType {
+        return try context.reference(for: QueryConnection<Model>.self)
+    }
+
     public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
         return try context.resolve(type: QueryConnection<Model>.self)
     }

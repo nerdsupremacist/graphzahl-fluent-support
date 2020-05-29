@@ -13,6 +13,10 @@ extension SiblingsProperty: OutputResolvable where To: OutputResolvable & Concre
         return To.additionalArguments
     }
 
+    public static func reference(using context: inout Resolution.Context) throws -> GraphQLOutputType {
+        return try context.reference(for: Value.self)
+    }
+
     public static func resolve(using context: inout Resolution.Context) throws -> GraphQLOutputType {
         return try context.resolve(type: QueryBuilder<To>.self)
     }
