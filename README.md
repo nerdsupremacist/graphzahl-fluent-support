@@ -65,8 +65,7 @@ It adds support for:
   
   ## Known Issues
 
-- Relation Fields depend on some query builder having run before, or they will crash otherwise. This is not ideal and should be solved
-- Paging for queries is not implemented yet
+- Relation Fields depend on some query builder having run before, or a connection to the databse beeing somewhere in the viewer context, or they will crash otherwise. This is not ideal and should be solved
 
 ## Contributions
 Contributions are welcome and encouraged!
