@@ -34,6 +34,9 @@ extension MutableContext {
 }
 
 private func findDatabase(in object: Any, typesSeen: Set<Int>) -> Database? {
+    print("Looking for db in \(object)")
+    fflush(stdout)
+
     if let object = object as? Database {
         return object
     }
@@ -46,7 +49,13 @@ private func findDatabase(in object: Any, typesSeen: Set<Int>) -> Database? {
         return object.db
     }
 
+    print("Looking for db via mirror")
+    fflush(stdout)
+
     let mirror = Mirror(reflecting: object)
+    print("Received mirror!")
+    fflush(stdout)
+
     let castedType = unsafeBitCast(mirror.subjectType, to: Int.self)
 
     guard !typesSeen.contains(castedType) else { return nil }
