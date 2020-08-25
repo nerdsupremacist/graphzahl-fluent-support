@@ -11,7 +11,7 @@ extension MutableContext {
         if let database = self[.database] { return database }
         let anyViewerContext = self.anyViewerContext
 
-        guard let database = findDatabase(in: anyViewerContext) else {
+        guard let database = findDatabase(in: anyViewerContext, typesSeen: []) else {
             throw GraphZahlFluentError.couldNotResolveDatabase(viewerContext: anyViewerContext, context: self)
         }
 
@@ -24,7 +24,7 @@ extension MutableContext {
 
 }
 
-private func findDatabase(in object: Any) -> Database? {
+private func findDatabase(in object: Any, typesSeen: Set<Int>) -> Database? {
     if let object = object as? Database {
         return object
     }
@@ -38,9 +38,12 @@ private func findDatabase(in object: Any) -> Database? {
     }
 
     let mirror = Mirror(reflecting: object)
+    let castedType = unsafeBitCast(mirror.subjectType, to: Int.self)
+
+    guard !typesSeen.contains(castedType) else { return nil }
 
     for child in mirror.children {
-        guard let database = findDatabase(in: child.value) else { continue }
+        guard let database = findDatabase(in: child.value, typesSeen: typesSeen.union([castedType])) else { continue }
         return database
     }
 
