@@ -15,7 +15,7 @@ extension MutableContext {
         }
         let anyViewerContext = self.anyViewerContext
 
-        guard let database = findDatabase(in: anyViewerContext, typesSeen: []) else {
+        guard let database = findDatabase(in: anyViewerContext) else {
             print("Failed to find DB")
             fflush(stdout)
             throw GraphZahlFluentError.couldNotResolveDatabase(viewerContext: anyViewerContext, context: self)
@@ -33,10 +33,17 @@ extension MutableContext {
 
 }
 
-private func findDatabase(in object: Any, typesSeen: Set<Int>) -> Database? {
-    print("Looking for db in \(object)")
-    fflush(stdout)
+private func findDatabase(in object: Any) -> Database? {
+    var queue = [object]
+    while let next = queue.popLast() {
+        if let database = database(in: next, queue: &queue) {
+            return database
+        }
+    }
+    return nil
+}
 
+private func database(in object: Any, queue: inout [Any]) -> Database? {
     if let object = object as? Database {
         return object
     }
@@ -49,21 +56,11 @@ private func findDatabase(in object: Any, typesSeen: Set<Int>) -> Database? {
         return object.db
     }
 
-    print("Looking for db via mirror")
-    fflush(stdout)
-
-    let mirror = Mirror(reflecting: object)
-    print("Received mirror!")
-    fflush(stdout)
-
-    let castedType = unsafeBitCast(mirror.subjectType, to: Int.self)
-
-    guard !typesSeen.contains(castedType) else { return nil }
-
-    for child in mirror.children {
-        guard let database = findDatabase(in: child.value, typesSeen: typesSeen.union([castedType])) else { continue }
-        return database
+    if object is EventLoopGroup {
+        return nil
     }
 
+    let mirror = Mirror(reflecting: object)
+    queue = mirror.children.map { $0.value } + queue
     return nil
 }
