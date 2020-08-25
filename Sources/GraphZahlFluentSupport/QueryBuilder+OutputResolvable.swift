@@ -14,6 +14,9 @@ extension QueryBuilder: DelegatedOutputResolvable where Model: OutputResolvable 
 
     // Indirection added to include the database in the context, just in case it's not part of the viewer context
     public func resolve(source: Any, arguments: [String : Map], context: MutableContext, eventLoop: EventLoopGroup) throws -> some OutputResolvable {
+        print("Instantiating connection")
+        fflush(stdout)
+
         context.push {
             .database ~> database
         }
