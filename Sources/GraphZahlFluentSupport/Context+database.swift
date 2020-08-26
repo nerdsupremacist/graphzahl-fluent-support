@@ -8,21 +8,12 @@ import ContextKit
 extension MutableContext {
 
     func database() throws -> Database {
-        if let database = self[.database] {
-            print("Found DB")
-            fflush(stdout)
-            return database
-        }
+        if let database = self[.database] { return database }
         let anyViewerContext = self.anyViewerContext
 
         guard let database = findDatabase(in: anyViewerContext) else {
-            print("Failed to find DB")
-            fflush(stdout)
             throw GraphZahlFluentError.couldNotResolveDatabase(viewerContext: anyViewerContext, context: self)
         }
-
-        print("Found DB")
-        fflush(stdout)
 
         push {
             .database ~> database
